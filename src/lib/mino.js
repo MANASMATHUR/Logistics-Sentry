@@ -75,3 +75,29 @@ ${contextUrl ? `\n**CRITICAL CONTEXT**: The user has provided a specific Source 
         throw error;
     }
 }
+
+export async function runGenericAgent(url, goal) {
+    try {
+        const response = await fetch(MINO_API_URL, {
+            method: "POST",
+            headers: {
+                "X-API-Key": MINO_API_KEY,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                url: url,
+                goal: goal,
+                browser_profile: "stealth"
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Mino API error: ${response.statusText}`);
+        }
+
+        return response.body;
+    } catch (error) {
+        console.error("Agent execution failed:", error);
+        throw error;
+    }
+}

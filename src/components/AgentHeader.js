@@ -30,22 +30,19 @@ export function AgentHeader({ status, onToggleStatus, lastSync }) {
                     <div>
                         <div className="flex items-center gap-2">
                             <h1 className="font-bold text-lg tracking-tight">
-                                Inventory <span className="text-primary italic">Guardian</span>
+                                Mino <span className="text-primary italic">Logistics</span>
                             </h1>
-                            <span className="text-[10px] bg-primary/5 border border-primary/10 px-1.5 py-0.5 rounded text-muted-foreground uppercase tracking-widest">v2.1.0</span>
+                            <span className="text-[10px] bg-primary/5 border border-primary/10 px-1.5 py-0.5 rounded text-muted-foreground uppercase tracking-widest">v3.0</span>
                         </div>
-                        <p className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">
-                            AI STOCK MONITOR • <span className={status === "active" ? "text-success font-bold" : "text-warning font-bold"}>{status}</span>
-                        </p>
                     </div>
                 </div>
 
                 <nav className="hidden lg:flex items-center gap-6 flex-1 ml-10">
-                    <Link href="/" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">
-                        Inventory Audit
+                    <Link href="/" className="text-xs font-bold uppercase tracking-widest text-primary transition-colors">
+                        Supply Chain Risk
                     </Link>
-                    <Link href="/competitive-pricing" className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
-                        Pricing Intel
+                    <Link href="#" className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
+                        Network Map
                     </Link>
                 </nav>
                 <div className="hidden md:flex items-center gap-1 bg-primary/5 border border-primary/10 rounded-lg px-3 py-1.5 mr-2 shadow-sm">
