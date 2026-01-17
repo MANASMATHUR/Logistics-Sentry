@@ -28,7 +28,13 @@ export default function LogisticsDashboard() {
 
     // Inputs
     const [origin, setOrigin] = useState("Port of Los Angeles");
+    const [isCustomOrigin, setIsCustomOrigin] = useState(false);
+    const [customOrigin, setCustomOrigin] = useState("");
+
     const [carrier, setCarrier] = useState("Maersk");
+    const [isCustomCarrier, setIsCustomCarrier] = useState(false);
+    const [customCarrier, setCustomCarrier] = useState("");
+
     const [mode, setMode] = useState("Sea Freight");
 
     // Output
@@ -66,12 +72,15 @@ export default function LogisticsDashboard() {
         toast({ title: "Initiating Network Scan", description: `Checking status for ${origin} / ${carrier}...` });
 
         try {
+            const finalOrigin = isCustomOrigin ? customOrigin : origin;
+            const finalCarrier = isCustomCarrier ? customCarrier : carrier;
+
             const response = await fetch("/api/logistics/risk-assessment", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    origin_port: origin,
-                    carrier: carrier,
+                    origin_port: finalOrigin,
+                    carrier: finalCarrier,
                     mode: mode
                 })
             });
@@ -128,19 +137,49 @@ export default function LogisticsDashboard() {
                                         <label className="text-xs font-bold uppercase text-muted-foreground tracking-widest ml-1">Origin Port</label>
                                         <div className="relative group">
                                             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                                            <select
-                                                value={origin}
-                                                onChange={(e) => setOrigin(e.target.value)}
-                                                disabled={isRunning}
-                                                className="w-full pl-12 pr-4 py-4 rounded-xl border border-primary/10 bg-background/50 text-base font-bold focus:outline-none focus:ring-2 focus:ring-primary/20 hover:bg-background/80 transition-all appearance-none cursor-pointer"
-                                            >
-                                                <option value="Port of Los Angeles">Port of Los Angeles (USA)</option>
-                                                <option value="Shanghai">Port of Shanghai (CN)</option>
-                                                <option value="Rotterdam">Port of Rotterdam (EU)</option>
-                                            </select>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                                                <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-muted-foreground/50" />
-                                            </div>
+                                            {!isCustomOrigin ? (
+                                                <>
+                                                    <select
+                                                        value={origin}
+                                                        onChange={(e) => {
+                                                            if (e.target.value === "CUSTOM") {
+                                                                setIsCustomOrigin(true);
+                                                            } else {
+                                                                setOrigin(e.target.value);
+                                                            }
+                                                        }}
+                                                        disabled={isRunning}
+                                                        className="w-full pl-12 pr-10 py-4 rounded-xl border border-primary/10 bg-background/50 text-base font-bold focus:outline-none focus:ring-2 focus:ring-primary/20 hover:bg-background/80 transition-all appearance-none cursor-pointer"
+                                                    >
+                                                        <option value="Port of Los Angeles">Port of Los Angeles (USA)</option>
+                                                        <option value="Shanghai">Port of Shanghai (CN)</option>
+                                                        <option value="Rotterdam">Port of Rotterdam (EU)</option>
+                                                        <option value="CUSTOM">+ Specify Custom Port</option>
+                                                    </select>
+                                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                                                        <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-muted-foreground/50" />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className="flex gap-2">
+                                                    <input
+                                                        autoFocus
+                                                        type="text"
+                                                        placeholder="Enter Port Name..."
+                                                        value={customOrigin}
+                                                        onChange={(e) => setCustomOrigin(e.target.value)}
+                                                        disabled={isRunning}
+                                                        className="w-full pl-12 pr-4 py-4 rounded-xl border border-primary/20 bg-background/80 text-base font-bold focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setIsCustomOrigin(false)}
+                                                        className="px-4 text-xs font-bold text-muted-foreground hover:text-primary transition-colors"
+                                                    >
+                                                        Reset
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
@@ -149,16 +188,49 @@ export default function LogisticsDashboard() {
                                             <label className="text-xs font-bold uppercase text-muted-foreground tracking-widest ml-1">Carrier</label>
                                             <div className="relative group">
                                                 <Ship className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                                                <select
-                                                    value={carrier}
-                                                    onChange={(e) => setCarrier(e.target.value)}
-                                                    disabled={isRunning}
-                                                    className="w-full pl-12 pr-4 py-4 rounded-xl border border-primary/10 bg-background/50 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer"
-                                                >
-                                                    <option value="Maersk">Maersk</option>
-                                                    <option value="MSC">MSC</option>
-                                                    <option value="CMA CGM">CMA CGM</option>
-                                                </select>
+                                                {!isCustomCarrier ? (
+                                                    <>
+                                                        <select
+                                                            value={carrier}
+                                                            onChange={(e) => {
+                                                                if (e.target.value === "CUSTOM") {
+                                                                    setIsCustomCarrier(true);
+                                                                } else {
+                                                                    setCarrier(e.target.value);
+                                                                }
+                                                            }}
+                                                            disabled={isRunning}
+                                                            className="w-full pl-12 pr-10 py-4 rounded-xl border border-primary/10 bg-background/50 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer"
+                                                        >
+                                                            <option value="Maersk">Maersk</option>
+                                                            <option value="MSC">MSC</option>
+                                                            <option value="CMA CGM">CMA CGM</option>
+                                                            <option value="CUSTOM">+ Other</option>
+                                                        </select>
+                                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                                            <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-muted-foreground/50" />
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <div className="flex flex-col gap-1 w-full">
+                                                        <input
+                                                            autoFocus
+                                                            type="text"
+                                                            placeholder="Carrier Name"
+                                                            value={customCarrier}
+                                                            onChange={(e) => setCustomCarrier(e.target.value)}
+                                                            disabled={isRunning}
+                                                            className="w-full pl-12 pr-4 py-4 rounded-xl border border-primary/20 bg-background/80 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setIsCustomCarrier(false)}
+                                                            className="text-[10px] font-bold text-muted-foreground hover:text-primary text-left ml-1"
+                                                        >
+                                                            Back to list
+                                                        </button>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
 
