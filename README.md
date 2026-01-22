@@ -1,6 +1,7 @@
 # Mino Logistics Intelligence: Autonomous Real-Time Risk Monitor
 
 **Context-Aware Supply Chain Visibility**
+
 This application is a next-generation logistics monitoring tool that uses the **Mino API** to deploy autonomous web agents. These agents "scout" disparate public data sources (Carrier Advisories, Port Terminal Statuses, Weather Bureaus) in real-time to detect delay risks that traditional APIs miss.
 
 ---
