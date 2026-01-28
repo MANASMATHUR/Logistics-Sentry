@@ -3,10 +3,9 @@ Live Demo: [https://inventory-agent-three.vercel.app/](https://inventory-agent-t
 
 A comprehensive logistics intelligence platform that helps supply chain teams track port congestion, carrier advisories, and operational risks across multiple sources simultaneously. Uses the **Discovery → Scouting → Synthesis** pipeline pattern with parallel Mino browser agents to provide real-time, source-backed operational signals.
 
-Status: ✅ Working
 
 ## Demo
-[Demo video/screenshot to be added]
+<video controls src="20260128-0324-37.5637592.mp4" title="Title"></video>
 
 ## How Mino API is Used
 The Mino API powers the core execution layer. The orchestrator deploys **multiple Mino Agents** to navigate the live DOM of target logistics sites, bypassing static API limitations. These agents extract "Deep Metrics" (wait times, vessel counts, specific alerts) and return structured operational signals.
